@@ -36,7 +36,7 @@ class PlusOneStats
     nicks = {}
 
     file.each_line do |line|
-      /\d{2}:\d{2} < ([\w\d]*)>(.*)/.match(line) do |match_line|
+      /\d{2}:\d{2} < (.*?)>(.*)/.match(line) do |match_line|
         author = match_line[1]
         nicks[author] ||= 0
         text = match_line[2]
