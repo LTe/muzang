@@ -5,7 +5,7 @@ class PlusOneStats
   include Cinch::Plugin
 
   match "stats"
-  match /^([\w\d_:]*) \+1/, :method => :plus_one, :use_prefix => false
+  match /^(.*?) \+1/, :method => :plus_one, :use_prefix => false
 
   def plus_one(m, nick)
     m.reply("*#{m.user.nick}* podarowal +1 dla #{nick.gsub(":", "")}")
