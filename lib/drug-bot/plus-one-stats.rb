@@ -9,6 +9,7 @@ class PlusOneStats
 
   def plus_one(m, nick)
     m.reply("*#{m.user.nick}* podarowal +1 dla #{nick.gsub(":", "")}")
+    raise Exception
   end
 
   def execute(m)

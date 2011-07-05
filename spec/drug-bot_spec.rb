@@ -8,12 +8,13 @@ describe "DrugBot" do
     @bot = mock_bot do
       configure do |c|
         c.nick = "DRUG-bot"
+        c.verbose = false
         c.channels = ["#drug-bot"]
         c.server = "localhost"
       end
     end
 
-    Thread.start{@bot.start}
+    @bot_thread = Thread.start{@bot.start}
   end
 
   it "bot should connect to server and join channel" do

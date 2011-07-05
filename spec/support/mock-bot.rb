@@ -16,6 +16,7 @@ class MockSocket
     gets()
   end
   def write(m) @out.write(m) end
+  def close() return false end
   def puts(m) @out.puts(m) end
   def print(m) @out.print(m) end
   def eof?() @in.eof? end
@@ -41,13 +42,15 @@ module MockBot
     @server.gets.should == "\r\n"
     @server.gets.should == "USER cinch 0 * :cinch\r\n"
 
-    1.upto(4) {|i| @server.print ":localhost 00#{i} #{@bot.config.nick}\r\n"}
+    1.upto(4) do |i| 
+      @server.print ":localhost 00#{i} #{@bot.config.nick}\r\n"
+    end
 
     @server.gets.should == "\r\n"
-    @server.gets.should == "JOIN #{@bot.config.channels[0]}\r\n"
   end
 
   def join_to_channel(channel)
+    @server.gets.should == "JOIN #{@bot.config.channels[0]}\r\n"
     @server.print ":#{@bot.config.nick} MODE #{@bot.config.nick} :+i\r\n"
     @server.print ":#{@bot.config.nick}!~localhost JOIN :##{channel}\r\n"
     @server.gets.should == "\r\n"
@@ -56,5 +59,10 @@ module MockBot
     @server.gets.should == "MODE #{@bot.config.channels[0]} +b\r\n"
     @server.gets.should == "\r\n"
     @server.gets.should == "MODE #{@bot.config.channels[0]}\r\n"
+    @server.gets.should == "\r\n"
+  end
+
+  def send_message(from, to, message)
+    @server.print ":#{from} PRIVMSG #{to} :#{message}\r\n"
   end
 end
