@@ -3,6 +3,8 @@ drug-bot
 
 IRC bot for #drug.pl channel
 
+[![BuildStatus](http://travis-ci.org/LTe/drug-bot.png)](http://github.com/LTe/drug-bot)
+
 Plugin
 ======
 
