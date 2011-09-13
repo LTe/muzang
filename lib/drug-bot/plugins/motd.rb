@@ -4,7 +4,7 @@ class Motd
   end
 
   def call(connection, message)
-    if message[:command] == "JOIN"
+    if message[:command] == "JOIN" && message[:nick] == connection.options[:nick]
       connection.msg(message[:channel], "DRUG-bot | Version: #{DrugBot::VERSION} | Plugins: #{plugins}")
     end
   end
