@@ -1,5 +1,7 @@
 source "http://rubygems.org"
 
+gem "eventmachine"
+
 group :development do
   gem "rspec", "~> 2.6.0"
   gem "bundler", "~> 1.0.0"

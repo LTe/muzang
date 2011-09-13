@@ -1,7 +1,4 @@
 require 'rubygems'
-require 'drug-bot/drug-bot'
 require 'drug-bot/irc'
+require 'drug-bot/drug-bot'
 require 'drug-bot/version'
-require 'drug-bot/plugins/plusone'
-require 'drug-bot/plugins/livereload'
-require 'drug-bot/plugins/motd'

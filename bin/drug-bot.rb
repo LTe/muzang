@@ -1,7 +1,9 @@
 $:.push File.expand_path("../../lib", __FILE__)
 
 require 'drug-bot'
-require 'yaml'
+require 'drug-bot/plugins/plusone'
+require 'drug-bot/plugins/livereload'
+require 'drug-bot/plugins/motd'
 
 EM.run do
   @bot = DrugBot::Bot.new

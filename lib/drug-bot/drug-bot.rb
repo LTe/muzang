@@ -27,7 +27,5 @@ module DrugBot
     def register_plugin(plugin)
       @plugins[plugin] = plugin.new(self)
     end
-
-
   end
 end

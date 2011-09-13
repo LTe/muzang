@@ -1,13 +1,8 @@
-GIT
-  remote: https://github.com/cinchrb/cinch.git
-  revision: 1e606cd6a5d937fca312df88bd5b8407a1983743
-  specs:
-    cinch (1.1.3)
-
 GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.2)
+    eventmachine (0.12.10)
     git (1.2.5)
     jeweler (1.6.3)
       bundler (~> 1.0)
@@ -28,6 +23,6 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.0.0)
-  cinch!
+  eventmachine
   jeweler (~> 1.6.3)
   rspec (~> 2.6.0)

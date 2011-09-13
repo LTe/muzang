@@ -2,6 +2,8 @@ require 'fileutils'
 require 'yaml'
 
 class PlusOne
+  attr_accessor :config, :stats
+
   def initialize(bot)
     unless File.exist?(@config = ENV["HOME"] + "/.drug-bot")
       FileUtils.mkdir @config
