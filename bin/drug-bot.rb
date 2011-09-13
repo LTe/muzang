@@ -1,14 +1,13 @@
 $:.push File.expand_path("../../lib", __FILE__)
 
 require 'drug-bot'
+require 'yaml'
 
-bot = Cinch::Bot.new do
-  configure do |c|
-    c.nick = "DRUG-bot"
-    c.server = "irc.freenode.org"
-    c.channels = ["#drug-bot"]
-    c.plugins.plugins = [PlusOneStats]
-  end
+EM.run do
+  @bot = DrugBot::Bot.new
+  @bot.register_plugin(PlusOne)
+  @bot.register_plugin(LiveReload)
+  @bot.register_plugin(Motd)
+  @bot.start
 end
 
-bot.start
