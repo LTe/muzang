@@ -1,6 +1,44 @@
-= drug-bot
+drug-bot
+========
 
-Description goes here.
+IRC bot for #drug.pl channel
+
+Plugin
+======
+
+```ruby
+class PluginName
+  def initialize(bot)
+  end
+
+  def call(connection, message)
+  end
+end
+```
+
+*connection* - you can use methods from Coffeemaker::Commands
+
+message
+
+```ruby
+# example message
+  {
+    :command => "PRIVMSG",
+    :user    => "LTe",
+    :nick    => "LTe",
+    :host    => "localhost",
+    :message => "Hi there!",
+    :channel => "#test"
+  }
+```
+
+After that just execute .register_plugin before bot start
+
+```ruby
+  @bot = DrugBot::Bot.new
+  @bot.register_plugin(PluginName)
+  @bot.start
+```
 
 == Contributing to drug-bot
  
