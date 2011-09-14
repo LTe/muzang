@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 
 gem "eventmachine"
+gem "json"
 
 group :development do
   gem "rspec", "~> 2.6.0"
