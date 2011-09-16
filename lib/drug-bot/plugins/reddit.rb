@@ -26,7 +26,6 @@ class Reddit
 
         http.callback {|response|
           rss = RSS::Parser.parse(response.content, false)
-          puts rss.items.size
           rss.items.each do |item|
             connection.msg(message[:channel], "#{item.title} | #{item.link}") if item.date > @last_update
           end
