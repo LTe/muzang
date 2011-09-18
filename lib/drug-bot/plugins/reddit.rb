@@ -21,6 +21,7 @@ class Reddit
   def call(connection, message)
     if message[:command] == "JOIN" && message[:nick] == connection.options[:nick]
       EventMachine::add_periodic_timer(30) do
+        @last_update = Time.now
         c_http = EM::Protocols::HttpClient2.connect 'www.reddit.com', 80
         http = c_http.get "/r/ruby/.rss"
 
@@ -36,7 +37,6 @@ class Reddit
   end
 
   def save
-    @last_update = Time.now
     file = File.open(@config + "/last_update.yml", "w"){|f| f.write YAML::dump(@last_update)}
   end
 end
