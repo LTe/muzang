@@ -2,24 +2,18 @@ require 'fileutils'
 require 'yaml'
 
 class PlusOne
+  include DrugBot::Plugin::Helpers
+
   attr_accessor :config, :stats
 
   def initialize(bot)
-    unless File.exist?(@config = ENV["HOME"] + "/.drug-bot")
-      FileUtils.mkdir @config
-    end
-
-    unless File.exist? @config + "/stats.yml"
-      db = YAML::dump Hash.new
-      File.open(@config + "/stats.yml", "w"){|f| f.write(db)}
-    end
-
-    @stats = YAML::load File.open(@config + "/stats.yml", "r").read
+    @bot = bot
+    create_database("stats.yml", Hash.new, :stats)
   end
 
   def call(connection, message)
-    if message[:channel]
-      if (plus_for = message[:message].match(/^([^\s]*) \+1/).to_a[1])
+    if on_channel?(message)
+      if (plus_for = match?(message, /^([^\s]*) \+1/))
         plus_for.gsub!(":","")
         if filter(plus_for, message[:nick])
           connection.msg(message[:channel], "#{message[:nick]} pisze w PHP") and return
@@ -31,7 +25,7 @@ class PlusOne
         save
       end
 
-      if message[:message].match(/^!stats$/) && message[:message].match(/^!stats$/)[0]
+      if match?(message, /^!stats$/)
         connection.msg(message[:channel], print)
       end
     end
@@ -45,10 +39,6 @@ class PlusOne
     end
 
     message
-  end
-
-  def save
-    file = File.open(@config + "/stats.yml", "w"){|f| f.write YAML::dump(@stats)}
   end
 
   def filter(plus_for, nick)

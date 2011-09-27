@@ -1,31 +1,26 @@
 require 'rss/1.0'
 require 'rss/2.0'
-require 'eventmachine'
 
 class Reddit
+  include DrugBot::Plugin::Helpers
+  attr_accessor :last_update
+
   def initialize(bot)
     @bot = bot
-
-    unless File.exist?(@config = ENV["HOME"] + "/.drug-bot")
-      FileUtils.mkdir @config
-    end
-
-    unless File.exist? @config + "/last_update.yml"
-      db = YAML::dump Time.now
-      File.open(@config + "/last_update.yml", "w"){|f| f.write(db)}
-    end
-
-    @last_update = YAML::load File.open(@config + "/last_update.yml", "r").read
+    create_database("last_update.yml", Time.now, :last_update)
   end
 
   def call(connection, message)
     if message[:command] == "JOIN" && message[:nick] == connection.options[:nick]
-      EventMachine::add_periodic_timer(30) do
-        c_http = EM::Protocols::HttpClient2.connect 'www.reddit.com', 80
-        http = c_http.get "/r/ruby/.rss"
+      EventMachine::add_periodic_timer(period) do
+        http = EventMachine::HttpRequest.new('http://www.reddit.com/r/ruby/.rss').get
+
+        http.errback {
+          # exceptioner
+        }
 
         http.callback {|response|
-          rss = RSS::Parser.parse(response.content, false)
+          rss = RSS::Parser.parse(http.response, false)
           rss.items.each do |item|
             connection.msg(message[:channel], "#{item.title} | #{item.link}") if item.date > @last_update
           end
@@ -38,5 +33,9 @@ class Reddit
   def save(rss)
     @last_update = rss.items.max_by{|i|i.date}.date
     file = File.open(@config + "/last_update.yml", "w"){|f| f.write YAML::dump(@last_update)}
+  end
+
+  def period
+    30
   end
 end

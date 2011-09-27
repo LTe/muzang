@@ -2,29 +2,26 @@ require 'rubygems'
 require 'json'
 
 class RubyGems
+  include DrugBot::Plugin::Helpers
+
+  attr_accessor :last_gem
+
   def initialize(bot)
     @bot = bot
-
-    unless File.exist?(@config = ENV["HOME"] + "/.drug-bot")
-      FileUtils.mkdir @config
-    end
-
-    unless File.exist? @config + "/last_gem.yml"
-      db = YAML::dump ""
-      File.open(@config + "/last_gem.yml", "w"){|f| f.write(db)}
-    end
-
-    @last_gem = YAML::load File.open(@config + "/last_gem.yml", "r").read
+    create_database("last_gem.yml", String.new, :last_gem)
   end
 
   def call(connection, message)
     if message[:command] == "JOIN" && message[:nick] == connection.options[:nick]
-      EventMachine::add_periodic_timer(10) do
-        c_http = EM::Protocols::HttpClient2.connect 'rubygems.org', 80
-        http = c_http.get "/api/v1/gems/latest.json"
+      EventMachine::add_periodic_timer(period) do
+        http = EventMachine::HttpRequest.new('http://rubygems.org/api/v1/gems/latest.json').get
+
+        http.errback {
+          # exceptioner
+        }
 
         http.callback {|response|
-          gems = JSON.parse(response.content)
+          gems = JSON.parse(http.response)
           gem = gems.first
           unless @last_gem == gem["name"]
             @last_gem = gem["name"]
@@ -38,5 +35,9 @@ class RubyGems
 
   def save
     file = File.open(@config + "/last_gem.yml", "w"){|f| f.write YAML::dump(@last_gem)}
+  end
+
+  def period
+    30
   end
 end

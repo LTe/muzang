@@ -26,6 +26,7 @@ def safe(*args, &block)
 end
 
 class Eval
+
   def initialize(bot)
     @bot = bot
   end

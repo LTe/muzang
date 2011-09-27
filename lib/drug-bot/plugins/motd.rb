@@ -1,10 +1,13 @@
 class Motd
+
+  include DrugBot::Plugin::Helpers
+
   def initialize(bot)
     @bot = bot
   end
 
   def call(connection, message)
-    if message[:command] == "JOIN" && message[:nick] == connection.options[:nick]
+    if on_join?(connection, message)
       connection.msg(message[:channel], "DRUG-bot | Version: #{DrugBot::VERSION} | Plugins: #{plugins}")
     end
   end
