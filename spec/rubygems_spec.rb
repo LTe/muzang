@@ -23,7 +23,7 @@ describe "RubyGems" do
     @rubygems.last_gem = "fake_gem"
     EM.run do
       @rubygems.call(@connection, @message)
-      eventually(1, :every => 1, :total => 10) { @connection.message_count }
+      eventually(1, :every => 0.1, :total => 100) { @connection.message_count }
     end
   end
 
@@ -31,7 +31,7 @@ describe "RubyGems" do
     @rubygems.last_gem = "action_links"
     EM.run do
       @rubygems.call(@connection, @message)
-      eventually(0, :every => 1, :total => 10) { @connection.message_count }
+      eventually(0, :every => 0.1, :total => 100) { @connection.message_count }
     end
   end
 end

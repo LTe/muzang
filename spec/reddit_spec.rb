@@ -23,7 +23,7 @@ describe "Reddit" do
     @reddit.last_update = Time.new 2010
     EM.run do
       @reddit.call(@connection, @message)
-      eventually(25, :every => 1, :total => 10) { @connection.message_count }
+      eventually(25, :every => 0.1, :total => 100) { @connection.message_count }
     end
   end
 
@@ -31,7 +31,7 @@ describe "Reddit" do
     @reddit.last_update = Time.new(2011, 9, 29, 0, 47, 0)
     EM.run do
       @reddit.call(@connection, @message)
-      eventually(1, :every => 1, :total => 10) { @connection.message_count }
+      eventually(1, :every => 0.1, :total => 100) { @connection.message_count }
     end
   end
 
@@ -39,7 +39,7 @@ describe "Reddit" do
     @reddit.last_update = Time.now
     EM.run do
       @reddit.call(@connection, @message)
-      eventually(0, :every => 1, :total => 10) { @connection.message_count }
+      eventually(0, :every => 0.1, :total => 100) { @connection.message_count }
     end
   end
 end
