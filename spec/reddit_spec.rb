@@ -8,41 +8,38 @@ class Reddit
 end
 
 describe "Reddit" do
-  include EM::SpecHelper
-
   before do
     @bot = stub
     @reddit = Reddit.new(@bot)
-    @connection = stub(:msg => true, :options => { :nick => "DRUG-bot" })
+    @connection = ConnectionMock.new(:options => { :nick => "DRUG-bot" })
     @message = { :command => "JOIN", :channel => "#test", :nick => "DRUG-bot" }
-    @data = File.open(File.expand_path(File.dirname(__FILE__) + '/support/reddit.response'), "r").read
-    EventMachine::MockHttpRequest.register('http://www.reddit.com/r/ruby/.rss', :get, {}, @data)
+    @file = File.expand_path('../support/reddit.response', __FILE__)
+    EventMachine::MockHttpRequest.pass_through_requests = false
+    EventMachine::MockHttpRequest.register_file('http://www.reddit.com:80/r/ruby/.rss', :get, @file)
+    EventMachine::MockHttpRequest.activate!
   end
 
   it "should call reddit and print all articles" do
-    em do
-      @reddit.last_update = Time.new 2010
-      @connection.should_receive(:msg).exactly(25).times
+    @reddit.last_update = Time.new 2010
+    EM.run do
       @reddit.call(@connection, @message)
-      EM.add_timer(5){done}
+      eventually(25, :every => 1, :total => 10) { @connection.message_count }
     end
   end
 
   it "should print only one message" do
-    em do
-      @reddit.last_update = Time.new(2011, 9, 27, 21, 10, 0)
-      @connection.should_receive(:msg).once
+    @reddit.last_update = Time.new(2011, 9, 29, 0, 47, 0)
+    EM.run do
       @reddit.call(@connection, @message)
-      EM.add_timer(5){done}
+      eventually(1, :every => 1, :total => 10) { @connection.message_count }
     end
   end
 
   it "should not print message" do
-    em do
-      @reddit.last_update = Time.now
-      @connection.should_not_receive(:msg)
+    @reddit.last_update = Time.now
+    EM.run do
       @reddit.call(@connection, @message)
-      EM.add_timer(5){done}
+      eventually(0, :every => 1, :total => 10) { @connection.message_count }
     end
   end
 end

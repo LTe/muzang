@@ -8,33 +8,30 @@ class RubyGems
 end
 
 describe "RubyGems" do
-  include EM::SpecHelper
-
   before do
     @bot = stub
     @rubygems = RubyGems.new(@bot)
-    @connection = stub(:msg => true, :options => { :nick => "DRUG-bot" })
+    @connection = ConnectionMock.new(:options => { :nick => "DRUG-bot" })
     @message = { :command => "JOIN", :channel => "#test", :nick => "DRUG-bot" }
-    @data = File.open(File.expand_path(File.dirname(__FILE__) + '/support/rubygems.response'), "r").read
-    EventMachine::MockHttpRequest.register('http://rubygems.org/api/v1/gems/latest.json', :get, {}, @data)
+    @file = File.expand_path('../support/rubygems.response', __FILE__)
+    EventMachine::MockHttpRequest.pass_through_requests = false
+    EventMachine::MockHttpRequest.register_file('http://rubygems.org:80/api/v1/gems/latest.json', :get, @file)
+    EventMachine::MockHttpRequest.activate!
   end
 
   it "should print last gem" do
-    em do
-      @connection.should_receive(:msg).once
-      @rubygems.last_gem = "fake_gem"
+    @rubygems.last_gem = "fake_gem"
+    EM.run do
       @rubygems.call(@connection, @message)
-      EM.add_timer(10){done}
+      eventually(1, :every => 1, :total => 10) { @connection.message_count }
     end
   end
 
-  it "should not print the same gem" do
-    @connection.should_receive(:msg)
-
-    em do
-      @rubygems.last_gem = "action_links"
+  it "should not print last gem" do
+    @rubygems.last_gem = "action_links"
+    EM.run do
       @rubygems.call(@connection, @message)
-      EM.add_timer(5){done}
+      eventually(0, :every => 1, :total => 10) { @connection.message_count }
     end
   end
 end

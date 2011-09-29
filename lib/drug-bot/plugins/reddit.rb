@@ -19,7 +19,7 @@ class Reddit
           # exceptioner
         }
 
-        http.callback {|response|
+        http.callback {
           rss = RSS::Parser.parse(http.response, false)
           rss.items.each do |item|
             connection.msg(message[:channel], "#{item.title} | #{item.link}") if item.date > @last_update
@@ -36,6 +36,6 @@ class Reddit
   end
 
   def period
-    30
+    1
   end
 end

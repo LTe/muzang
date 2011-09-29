@@ -20,7 +20,7 @@ class RubyGems
           # exceptioner
         }
 
-        http.callback {|response|
+        http.callback {
           gems = JSON.parse(http.response)
           gem = gems.first
           unless @last_gem == gem["name"]
@@ -38,6 +38,6 @@ class RubyGems
   end
 
   def period
-    30
+    1
   end
 end
