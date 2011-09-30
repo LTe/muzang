@@ -5,8 +5,8 @@ module DrugBot
         message[:channel]
       end
 
-      def match?(message, regexp)
-        message[:message].match(regexp) ? message[:message].match(regexp)[1] : false
+      def match?(message, regexp, position=1)
+        message[:message].match(regexp) ? message[:message].match(regexp)[position] : false
       end
 
       def on_join?(connection, message)

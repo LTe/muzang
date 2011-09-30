@@ -7,6 +7,7 @@ require 'drug-bot/plugins/motd'
 require 'drug-bot/plugins/rubygems'
 require 'drug-bot/plugins/reddit'
 require 'drug-bot/plugins/eval'
+require 'drug-bot/plugins/nerdpursuit'
 
 EM.run do
   @bot = DrugBot::Bot.new
@@ -16,6 +17,7 @@ EM.run do
   #@bot.register_plugin(RubyGems)
   @bot.register_plugin(Reddit)
   @bot.register_plugin(Eval)
+  @bot.register_plugin(NerdPursuit)
   @bot.start
 end
 
