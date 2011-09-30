@@ -27,7 +27,7 @@ class NerdPursuit
           EM.add_timer(2+time+1) { connection.msg(message[:channel], "Answer #{time+1}: #{@current_question["a#{time+1}"]}") }
         end
 
-        EM.add_timer(15) {
+        EM.add_timer(40) {
           @quiz_time = false
           if @current_question["right_answer"]
             connection.msg(message[:channel], "Right answer: #{@current_question["right_answer"][1..1]}")
