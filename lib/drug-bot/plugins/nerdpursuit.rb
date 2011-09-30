@@ -29,10 +29,12 @@ class NerdPursuit
 
         EM.add_timer(15) {
           @quiz_time = false
-          connection.msg(message[:channel], "Right answer: #{@current_question["right_answer"][1..1]}")
-          @winner = @answers.reject{|k| k[:answer] != @current_question["right_answer"][1..1]}.sort_by{|k| k[:time]}
-          if @winner.first
-            connection.msg(message[:channel], "The winner is... #{@winner.first[:nick]}")
+          if @current_question["right_answer"]
+            connection.msg(message[:channel], "Right answer: #{@current_question["right_answer"][1..1]}")
+            @winner = @answers.reject{|k| k[:answer] != @current_question["right_answer"][1..1]}.sort_by{|k| k[:time]}
+            if @winner.first
+              connection.msg(message[:channel], "The winner is... #{@winner.first[:nick]}")
+            end
           end
           @answers = []
         }
