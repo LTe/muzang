@@ -36,6 +36,6 @@ class Reddit
   end
 
   def period
-    1
+    30
   end
 end

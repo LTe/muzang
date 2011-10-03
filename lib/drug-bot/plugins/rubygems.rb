@@ -38,6 +38,6 @@ class RubyGems
   end
 
   def period
-    1
+    30
   end
 end
