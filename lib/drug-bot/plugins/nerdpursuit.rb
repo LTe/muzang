@@ -63,7 +63,6 @@ class NerdPursuit
     if on_channel?(message)
       if match?(message, :regexp => /^!quiz$/, :position => 0)
         quiz!
-        connection.msg(message[:channel], "RA: #{current_question["right_answer"]}")
         connection.msg(message[:channel], "Quiz time!")
         EM.add_timer(period(1)) { connection.msg(message[:channel], "Category: #{current_question["category"]}") } 
         EM.add_timer(period(2)) { connection.msg(message[:channel], "Question: #{current_question["text"]}") }
