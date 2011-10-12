@@ -5,11 +5,9 @@ class << Safe
 
      begin
        $-w = nil
-       
        sandbox ||= Object.new.taint
-       
        yield(sandbox) if block_given?
-       
+
        $SAFE = 5
        value = eval(code, sandbox.send(:binding))
        result = Marshal.load(Marshal.dump(value))
@@ -32,8 +30,8 @@ class Eval
   end
 
   def call(connection, message)
-    if message[:channel]
-      if message[:message].match(/^\% (.*)/) && message[:message].match(/^\% (.*)/)[1]
+    if on_channel?(message)
+      if match?(message, :regexp => /^\% (.*)/)
         operation = proc do
           safe(message[:message].match(/^\% (.*)/)[1])
         end

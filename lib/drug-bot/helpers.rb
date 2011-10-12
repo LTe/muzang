@@ -5,8 +5,8 @@ module DrugBot
         message[:channel]
       end
 
-      def match?(message, regexp, position=1)
-        message[:message].match(regexp) ? message[:message].match(regexp)[position] : false
+      def match?(message, options = { :position => 1 })
+        message[:message].match(options[:regexp]) ? message[:message].match(options[:regexp])[options[:position]] : false
       end
 
       def on_join?(connection, message)
@@ -24,9 +24,9 @@ module DrugBot
         end
 
         send(:"#{variable}=", YAML::load(File.open(@config + "/#{file}", "r").read))
-
+        @config_file_path = @config + "/#{file}"
         Object.send(:define_method, :save) do
-          file = File.open(@config + "/#{file}", "w"){|f| f.write YAML::dump(send(variable))}
+          File.open(@config_file_path, "w"){|f| f.write YAML::dump(send(variable))}
         end
       end
     end

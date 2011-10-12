@@ -11,7 +11,7 @@ class Reddit
   end
 
   def call(connection, message)
-    if message[:command] == "JOIN" && message[:nick] == connection.options[:nick]
+    if on_join?(connection, message)
       EventMachine::add_periodic_timer(period) do
         http = EventMachine::HttpRequest.new('http://www.reddit.com/r/ruby/.rss').get
 

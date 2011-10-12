@@ -23,6 +23,12 @@ describe "PlusOne" do
     @plusone.stats["LTe"].should == 1
   end
 
+  it "should print stats" do
+    message = { :channel => "#test", :message => "!stats", :nick => "LTe" }
+    @connection.should_receive(:msg).once
+    @plusone.call(@connection, message)
+  end
+
   [
     "LTe: +1 for great irc bot",
     "LTe +1 for grat bot",

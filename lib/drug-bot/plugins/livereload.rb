@@ -1,11 +1,13 @@
 class LiveReload
+  include DrugBot::Plugin::Helpers
+
   def initialize(bot)
     @bot = bot
   end
 
   def call(connection, message)
-    if message[:channel]
-      if message[:message].match(/^!reload$/) && message[:message].match(/^!reload$/)[0]
+    if on_channel?(message)
+      if match?(message, :regexp => /^!reload$/, :position => 0)
         plugins_path = File.expand_path("../", __FILE__) + "/"
         @bot.plugins.each do |plugin, instance|
           Kernel.load(plugins_path + plugin.to_s.downcase + ".rb")

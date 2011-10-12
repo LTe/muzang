@@ -1,5 +1,5 @@
 class ConnectionMock
-  attr_accessor :message_count, :options
+  attr_accessor :message_count, :messages, :options
 
   def initialize(options = {})
     options.each do |k, v|
@@ -9,7 +9,10 @@ class ConnectionMock
 
   def msg(where, message)
     @message_count ||= 0
+    @messages ||= []
+
     @message_count += 1
+    @messages << message
   end
 
   def message_count

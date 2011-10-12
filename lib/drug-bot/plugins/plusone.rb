@@ -13,7 +13,7 @@ class PlusOne
 
   def call(connection, message)
     if on_channel?(message)
-      if (plus_for = match?(message, /^([^\s]*) \+1/))
+      if (plus_for = match?(message, :regexp => /^([^\s]*) \+1/, :position => 1))
         plus_for.gsub!(":","")
         if filter(plus_for, message[:nick])
           connection.msg(message[:channel], "#{message[:nick]} pisze w PHP") and return
@@ -25,7 +25,7 @@ class PlusOne
         save
       end
 
-      if match?(message, /^!stats$/)
+      if match?(message, :regexp => /^!stats$/, :position => 0)
         connection.msg(message[:channel], print)
       end
     end
