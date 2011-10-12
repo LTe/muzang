@@ -14,7 +14,6 @@ EM.run do
   @bot.register_plugin(PlusOne)
   @bot.register_plugin(LiveReload)
   @bot.register_plugin(Motd)
-  #@bot.register_plugin(RubyGems)
   @bot.register_plugin(Reddit)
   @bot.register_plugin(Eval)
   @bot.register_plugin(NerdPursuit)

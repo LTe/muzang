@@ -24,6 +24,7 @@ def safe(*args, &block)
 end
 
 class Eval
+  include DrugBot::Plugin::Helpers
 
   def initialize(bot)
     @bot = bot
@@ -31,7 +32,7 @@ class Eval
 
   def call(connection, message)
     if on_channel?(message)
-      if match?(message, :regexp => /^\% (.*)/)
+      if match?(message, :regexp => /^\% (.*)/, :position => 1)
         operation = proc do
           safe(message[:message].match(/^\% (.*)/)[1])
         end
