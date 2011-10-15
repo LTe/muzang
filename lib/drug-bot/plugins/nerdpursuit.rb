@@ -81,8 +81,10 @@ class NerdPursuit
       end
 
       if(answer = match?(message, :regexp => /\d/, :position => 0))
-        unless @answers[message[:nick]]
-          @answers[message[:nick]] = { :answer => answer, :time => Time.now }
+        if @quiz_time
+          unless @answers[message[:nick]]
+            @answers[message[:nick]] = { :answer => answer, :time => Time.now }
+          end
         end
       end
     end
