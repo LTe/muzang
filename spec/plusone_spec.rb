@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
-require 'drug-bot/plugins/plusone'
 
 describe "PlusOne" do
   before(:each) do

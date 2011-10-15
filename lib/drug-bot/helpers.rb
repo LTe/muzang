@@ -1,11 +1,14 @@
 module DrugBot
   module Plugin
     module Helpers
+      DEFAULT_MATCH_OPTIONS = { :position => 1 }
+
       def on_channel?(message)
         message[:channel]
       end
 
-      def match?(message, options = { :position => 1 })
+      def match?(message, options = {})
+        options = DEFAULT_MATCH_OPTIONS.merge(options)
         message[:message].match(options[:regexp]) ? message[:message].match(options[:regexp])[options[:position]] : false
       end
 
