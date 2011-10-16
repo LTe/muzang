@@ -1,3 +1,5 @@
+source :rubygems
+
 group :development do
   gem "em-ventually"
   gem "rspec", "~> 2.6.0"

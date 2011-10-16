@@ -1,4 +1,5 @@
-task :default => "test:all"
+task :default => "spec"
+
 
 module TaskUtils
   extend self
@@ -49,12 +50,10 @@ namespace :build do
   end
 end
 
-namespace :test do
-  desc "Run all exceptioner tests"
-  task :all do
-    TaskUtils.each_gem("Running tests...") do |name, path|
-      puts name
-      TaskUtils.run_tests(path)
-    end
+desc "Run all exceptioner tests"
+task :spec do
+  TaskUtils.each_gem("Running tests...") do |name, path|
+    puts name
+    TaskUtils.run_tests(path)
   end
 end

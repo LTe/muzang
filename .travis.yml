@@ -1,3 +1,4 @@
+before_script: rake dependencies:install
 rvm:
   - 1.9.2
   - ruby-head
