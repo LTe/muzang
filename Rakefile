@@ -1,5 +1,9 @@
 task :default => "test:all"
 
+task :dependencies do
+  ENV["HEAVY_DEVELOPMENT"] = '1'
+end
+
 module TaskUtils
   extend self
 
@@ -12,7 +16,7 @@ module TaskUtils
   end
 
   def install_deps(path)
-    system("cd #{path} && bundle install")
+    system("cd #{path} && bundle")
   end
 
   def each_gem(action, paths = all_paths, &block)

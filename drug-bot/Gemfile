@@ -2,9 +2,4 @@ source "http://rubygems.org"
 
 gemspec
 
-group :development do
-  gem "em-ventually"
-  gem "rspec", "~> 2.6.0"
-  gem "bundler", "~> 1.0.0"
-  gem "jeweler", "~> 1.6.3"
-end
+File.open(File.expand_path("../../Gemfile", __FILE__)){|f|eval(f.read)}

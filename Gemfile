@@ -1,9 +1,3 @@
-source "http://rubygems.org"
-
-gem "eventmachine", "~> 0.12.10"
-gem "em-http-request"
-gem "json"
-
 group :development do
   gem "em-ventually"
   gem "rspec", "~> 2.6.0"
