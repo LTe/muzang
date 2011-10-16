@@ -1,9 +1,5 @@
 task :default => "test:all"
 
-task :dependencies do
-  ENV["HEAVY_DEVELOPMENT"] = '1'
-end
-
 module TaskUtils
   extend self
 
@@ -45,7 +41,7 @@ end
 
 namespace :build do
   desc "Builds all gems"
-  task :all => :build do
+  task :all do
     TaskUtils.each_gem("Building...") do |name, path|
       puts name
       TaskUtils.build(path)
