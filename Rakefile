@@ -1,50 +1,60 @@
-# encoding: utf-8
+task :default => "test:all"
 
-require 'rubygems'
-require 'bundler'
-begin
-  Bundler.setup(:default, :development)
-rescue Bundler::BundlerError => e
-  $stderr.puts e.message
-  $stderr.puts "Run `bundle install` to install missing gems"
-  exit e.status_code
-end
-require 'rake'
+module TaskUtils
+  extend self
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "drug-bot"
-  gem.homepage = "http://github.com/LTe/drug-bot"
-  gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "piotr.nielacny@gmail.com"
-  gem.authors = ["Piotr Niełacny"]
-  # dependencies defined in Gemfile
-end
-Jeweler::RubygemsDotOrgTasks.new
+  def run_tests(path)
+    system("cd #{path} && rake spec")
+  end
 
-require 'rspec/core'
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.rspec_opts = ["-fd"]
-  spec.pattern = FileList['spec/**/*_spec.rb']
+  def build(path)
+    system("cd #{path} && rake build")
+  end
+
+  def install_deps(path)
+    system("cd #{path} && bundle install")
+  end
+
+  def each_gem(action, paths = all_paths, &block)
+    all_paths.each do |path|
+      puts action
+      name = File.basename(path)
+      block.call(name, path)
+    end
+  end
+
+  def all_paths
+    Dir[File.join(File.dirname(__FILE__), 'drug-bot-*')]
+  end
+
 end
 
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
+namespace :dependencies do
+  desc "Install all dependencies"
+  task :install do
+    TaskUtils.each_gem("Installing dependencies...") do |name, path|
+      puts name
+      TaskUtils.install_deps(path)
+    end
+  end
 end
 
-task :default => :spec
+namespace :build do
+  desc "Builds all gems"
+  task :all => :build do
+    TaskUtils.each_gem("Building...") do |name, path|
+      puts name
+      TaskUtils.build(path)
+    end
+  end
+end
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "drug-bot #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+namespace :test do
+  desc "Run all exceptioner tests"
+  task :all do
+    TaskUtils.each_gem("Running tests...") do |name, path|
+      puts name
+      TaskUtils.run_tests(path)
+    end
+  end
 end
