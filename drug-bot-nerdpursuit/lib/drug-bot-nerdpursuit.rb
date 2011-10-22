@@ -1,4 +1,5 @@
 require "drug-bot-nerdpursuit/version"
+require "json"
 
 class NerdPursuit
   include DrugBot::Plugin::Helpers
@@ -13,7 +14,7 @@ class NerdPursuit
   end
 
   def all_questions
-    Dir["#{File.dirname(__FILE__)}/questions/**/*.json"]
+    names = Dir["#{File.dirname(__FILE__)}/drug-bot-nerdpursuit/questions/**/*.json"]
   end
 
   def quiz!(&block)
@@ -34,7 +35,7 @@ class NerdPursuit
         sample_question = (all_questions - questions).sample
         questions << sample_question
         save
-        @current_question = JSON.parse(File.open(sample_question).read)["question"]
+        @current_question = ::JSON.parse(File.open(sample_question).read)["question"]
       end while(!valid?(@current_question))
     end
 
@@ -56,7 +57,7 @@ class NerdPursuit
       answer[:time]
     end
   end
-  
+
   def period(time)
     time # need for speed up tests
   end

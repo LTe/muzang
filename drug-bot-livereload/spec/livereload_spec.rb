@@ -12,7 +12,7 @@ describe "LiveReload" do
 
   it "should load plugins" do
     message = {:channel => "#test", :message => "!reload"}
-    Kernel.should_receive(:load).with('drug-bot-livereload')
+    Kernel.should_receive(:load).with('drug-bot-livereload.rb')
     @livereload.call(@connection, message)
   end
 

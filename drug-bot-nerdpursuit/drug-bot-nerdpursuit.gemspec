@@ -4,7 +4,7 @@ require "drug-bot-nerdpursuit/version"
 
 Gem::Specification.new do |s|
   s.name        = "drug-bot-nerdpursuit"
-  s.version     = Nerdpursuit::VERSION
+  s.version     = NerdPursuit::VERSION
   s.authors     = ["Piotr Niełacny"]
   s.email       = ["piotr.nielacny@gmail.com"]
   s.homepage    = ""
@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "drug-bot", "~> 0.0.1"
+  s.add_runtime_dependency "json"
 end

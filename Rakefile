@@ -50,7 +50,7 @@ namespace :build do
   end
 end
 
-desc "Run all exceptioner tests"
+desc "Run all DRUG-bot tests"
 task :spec do
   TaskUtils.each_gem("Running tests...") do |name, path|
     puts name

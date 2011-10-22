@@ -27,9 +27,11 @@ module DrugBot
         end
 
         send(:"#{variable}=", YAML::load(File.open(@config + "/#{file}", "r").read))
-        @config_file_path = @config + "/#{file}"
-        Object.send(:define_method, :save) do
-          File.open(@config_file_path, "w"){|f| f.write YAML::dump(send(variable))}
+
+        unless self.respond_to?(:save)
+          self.class.send(:define_method, :save) do
+            File.open(@config + "/#{file}", "w"){|f| f.write YAML::dump(send(variable))}
+          end
         end
       end
     end
