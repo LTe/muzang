@@ -20,5 +20,4 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "eventmachine", "~> 0.12.10"
   s.add_runtime_dependency "em-http-request", "~> 0.3.0"
-  s.add_runtime_dependency "json"
 end
