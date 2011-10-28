@@ -13,9 +13,7 @@ module DrugBot
       end
 
       def on_join?(connection, message)
-        puts message[:command] == :JOIN
-        puts message[:command]
-        message[:command] == :join && message[:nick] == connection.connection.options[:nick]
+        message[:command] == :join && message[:nick] == connection.nick
       end
 
       def create_database(file, container, variable)
