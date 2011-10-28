@@ -5,8 +5,8 @@ require "drug-bot/version"
 Gem::Specification.new do |s|
   s.name        = "drug-bot"
   s.version     = DrugBot::VERSION
-  s.authors     = ["Piotr Niełacny"]
-  s.email       = ["piotr.nielacny@gmail.com"]
+  s.authors     = ["Piotr Niełacny", "Paweł Pacana"]
+  s.email       = ["piotr.nielacny@gmail.com", "pawel.pacana@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{Dolnoslaska Ruby User Group IRC bot}
   s.description = %q{IRC bot with easy plugin managment}
@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "em-http-request", "~> 0.3.0"
-  s.add_runtime_dependency "coffeemaker", "~> 0.0.1.beta.2"
+  s.add_runtime_dependency "coffeemaker", "~> 0.0.1.beta.3"
 end
