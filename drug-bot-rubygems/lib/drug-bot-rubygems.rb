@@ -1,5 +1,6 @@
 require "drug-bot-rubygems/version"
-require 'json'
+require "em-http-request"
+require "json"
 
 class RubyGems
   include DrugBot::Plugin::Helpers

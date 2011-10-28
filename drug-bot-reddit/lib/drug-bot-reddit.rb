@@ -1,6 +1,7 @@
 require "drug-bot-reddit/version"
-require 'rss/1.0'
-require 'rss/2.0'
+require "em-http-request"
+require "rss/1.0"
+require "rss/2.0"
 
 class Reddit
   include DrugBot::Plugin::Helpers
