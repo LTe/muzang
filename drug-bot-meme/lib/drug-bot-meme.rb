@@ -17,11 +17,11 @@ class Meme
   end
 
   def call(connection, message)
-    message[:message].match(/^meme$/) do
+    message.message.match(/^meme$/) do
       connection.msg("#{@bot.channel}", "Type 'meme [name of meme] \"Text0\" \"Text1\"'")
       connection.msg("#{@bot.channel}", "Available memes: #{MEMES.keys.join(" ")}")
     end
-    message[:message].match(/^meme (.*?) "(.*?)"( "(.*?)")?$/) do |m|
+    message.message.match(/^meme (.*?) "(.*?)"( "(.*?)")?$/) do |m|
       if meme_ids = MEMES[m[1]]
         @generator = meme_ids[:generator]
         @image_id  = meme_ids[:image_id]

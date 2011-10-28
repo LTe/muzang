@@ -66,27 +66,28 @@ class NerdPursuit
     if on_channel?(message)
       if match?(message, :regexp => /^!quiz$/, :position => 0)
         quiz!
-        connection.msg(message[:channel], "Quiz time!")
-        EM.add_timer(period(1)) { connection.msg(message[:channel], "Category: #{current_question["category"]}") } 
-        EM.add_timer(period(2)) { connection.msg(message[:channel], "Question: #{current_question["text"]}") }
+        connection.msg(message.channel, "Quiz time!")
+        EM.add_timer(period(1)) { connection.msg(message.channel, "Category: #{current_question["category"]}") } 
+        EM.add_timer(period(2)) { connection.msg(message.channel, "Question: #{current_question["text"]}") }
         4.times do |time| 
-          EM.add_timer(period(2+time+1)) { connection.msg(message[:channel], "Answer #{time+1}: #{current_question["a#{time+1}"]}") }
+          EM.add_timer(period(2+time+1)) { connection.msg(message.channel, "Answer #{time+1}: #{current_question["a#{time+1}"]}") }
         end
         EM.add_timer(period(40)) do
-          connection.msg(message[:channel], "Right answer: #{current_question["right_answer"][1..1]}")
+          connection.msg(message.channel, "Right answer: #{current_question["right_answer"][1..1]}")
           @winner = find_winner
           if @winner.first && @winner.first.first
-            connection.msg(message[:channel], "The winner is... #{@winner.first.first}")
+            connection.msg(message.channel, "The winner is... #{@winner.first.first}")
           end
           @answers = {}
+          @winner = nil
           end_quiz!
         end
       end
 
       if(answer = match?(message, :regexp => /\d/, :position => 0))
         if @quiz_time
-          unless @answers[message[:nick]]
-            @answers[message[:nick]] = { :answer => answer, :time => Time.now }
+          unless @answers[message.nick]
+            @answers[message.nick] = { :answer => answer, :time => Time.now }
           end
         end
       end

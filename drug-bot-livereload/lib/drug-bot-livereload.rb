@@ -13,7 +13,7 @@ class LiveReload
         @bot.plugins.each do |plugin, instance|
           Kernel.load("drug-bot-#{plugin.to_s.downcase}.rb")
           instance = plugin.new(@bot)
-          connection.msg(message[:channel], "Reloading: #{plugin}")
+          connection.msg(message.channel, "Reloading: #{plugin}")
         end
       end
     end

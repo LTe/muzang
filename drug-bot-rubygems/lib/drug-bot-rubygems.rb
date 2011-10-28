@@ -25,7 +25,7 @@ class RubyGems
           gem = gems.first
           unless @last_gem == gem["name"]
             @last_gem = gem["name"]
-            connection.msg(message[:channel], "Nowy gem! | #{gem["name"]} | #{gem["info"]} | #{gem["project_uri"]}")
+            connection.msg(message.channel, "Nowy gem! | #{gem["name"]} | #{gem["info"]} | #{gem["project_uri"]}")
             save
           end
         }

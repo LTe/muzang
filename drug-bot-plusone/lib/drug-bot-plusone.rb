@@ -16,18 +16,18 @@ class PlusOne
     if on_channel?(message)
       if (plus_for = match?(message, :regexp => /^([^\s]*) \+1/, :position => 1))
         plus_for.gsub!(":","")
-        if filter(plus_for, message[:nick])
-          connection.msg(message[:channel], "#{message[:nick]} pisze w PHP") and return
+        if filter(plus_for, message.nick)
+          connection.msg(message.channel, "#{message.nick} pisze w PHP") and return
         end
 
-        connection.msg(message[:channel], "#{message[:nick]} podarowal +1 dla *#{plus_for}*")
+        connection.msg(message.channel, "#{message.nick} podarowal +1 dla *#{plus_for}*")
         @stats[plus_for] ||= 0
         @stats[plus_for]  += 1
         save
       end
 
       if match?(message, :regexp => /^!stats$/, :position => 0)
-        connection.msg(message[:channel], print)
+        connection.msg(message.channel, print)
       end
     end
   end

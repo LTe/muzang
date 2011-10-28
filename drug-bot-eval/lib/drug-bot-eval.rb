@@ -38,12 +38,12 @@ class Eval
     if on_channel?(message)
       if match?(message, :regexp => /^\% (.*)/, :position => 1)
         operation = proc do
-          safe(message[:message].match(/^\% (.*)/)[1])
+          safe(message.message.match(/^\% (.*)/)[1])
         end
         callback = proc do |tuple|
           result, error = tuple
-          connection.msg(message[:channel], "#{result}") if result
-          connection.msg(message[:channel], "Error: #{error}") if error
+          connection.msg(message.channel, "#{result}") if result
+          connection.msg(message.channel, "Error: #{error}") if error
         end
         EM.defer(operation, callback)
       end

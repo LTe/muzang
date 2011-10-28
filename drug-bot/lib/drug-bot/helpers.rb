@@ -4,16 +4,16 @@ module DrugBot
       DEFAULT_MATCH_OPTIONS = { :position => 1 }
 
       def on_channel?(message)
-        message[:channel]
+        message.channel
       end
 
       def match?(message, options = {})
         options = DEFAULT_MATCH_OPTIONS.merge(options)
-        message[:message].match(options[:regexp]) ? message[:message].match(options[:regexp])[options[:position]] : false
+        message.message.match(options[:regexp]) ? message.message.match(options[:regexp])[options[:position]] : false
       end
 
       def on_join?(connection, message)
-        message[:command] == :join && message[:nick] == connection.nick
+        message.command == :join && message.nick == connection.nick
       end
 
       def create_database(file, container, variable)
