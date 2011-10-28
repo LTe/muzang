@@ -7,6 +7,7 @@ module DrugBot
       @plugins = {}
       callback =  Proc.new do |m|
           @plugins.each do |plugin, instance|
+            puts m.inspect
             begin
               instance.call(@connection, m)
             rescue Exception => e
