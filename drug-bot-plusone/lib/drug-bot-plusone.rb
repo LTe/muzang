@@ -1,4 +1,3 @@
-require "drug-bot-plusone/version"
 require 'fileutils'
 require 'yaml'
 

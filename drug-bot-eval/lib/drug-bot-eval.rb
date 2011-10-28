@@ -1,5 +1,3 @@
-require "drug-bot-eval/version"
-
 module Safe; end
 class << Safe
    def safe(code, sandbox=nil)

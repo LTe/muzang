@@ -1,4 +1,3 @@
-require "drug-bot-reddit/version"
 require "em-http-request"
 require "rss/1.0"
 require "rss/2.0"

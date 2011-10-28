@@ -1,4 +1,3 @@
-require "drug-bot-meme/version"
 require "em-http-request"
 require "json"
 
