@@ -3,25 +3,27 @@ module DrugBot
     attr_accessor :bot, :connection, :plugins, :engine, :channel
 
     def initialize(options = {})
-      @channel = options[:channel] || "test"
-      @bot = Coffeemaker::IRC.new(:irc_host => options[:host]     || "localhost" ,
-                                  :irc_port => options[:port]     || 6667,
-                                  :nick     => options[:nick]     || "DRUG-bot",
-                                  :channel  => @channel)
-
+      @channel = options[:channel] || "#test"
       @plugins = {}
+      callback =  Proc.new do |m|
+          @plugins.each do |plugin, instance|
+            begin
+              instance.call(@connection, m)
+            rescue Exception => e
+              # place for exceptioner?;-)
+            end
+          end
+        end
+
+      @bot = Coffeemaker::Bot.new(:irc_host   => options[:host]     || "localhost" ,
+                                  :irc_port   => options[:port]     || 6667,
+                                  :on_message => callback,
+                                  :nick       => options[:nick]     || "DRUG-bot")
     end
 
     def start
-      @connection = @bot.start
-      @connection.on_message = Proc.new do |m|
-        @plugins.each do |plugin, instance|
-          begin
-            instance.call(@connection, m)
-          rescue Exception => e
-            # place for exceptioner?;-)
-          end
-        end
+      @bot.start do |irc|
+        irc.join(@channel)
       end
     end
 
