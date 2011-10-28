@@ -5,7 +5,7 @@ module TaskUtils
   extend self
 
   def run_tests(path)
-    system("cd #{path} && rake spec")
+    system("cd #{path} && bundle exec rake spec")
   end
 
   def build(path)
