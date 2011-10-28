@@ -1,7 +1,7 @@
 module DrugBot
   module Plugin
     module Helpers
-      DEFAULT_MATCH_OPTIONS = { :position => 1 }
+      DEFAULT_MATCH_OPTIONS = { position: 1 }
 
       def on_channel?(message)
         message[:channel]
