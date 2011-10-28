@@ -22,15 +22,15 @@ module DrugBot
         end
 
         unless File.exist? @config + "/#{file}"
-          db = YAML::dump container
+          db = YAML.dump container
           File.open(@config + "/#{file}", "w"){|f| f.write(db)}
         end
 
-        send(:"#{variable}=", YAML::load(File.open(@config + "/#{file}", "r").read))
+        send(:"#{variable}=", YAML.load(File.open(@config + "/#{file}", "r").read))
 
         unless self.respond_to?(:save)
           self.class.send(:define_method, :save) do
-            File.open(@config + "/#{file}", "w"){|f| f.write YAML::dump(send(variable))}
+            File.open(@config + "/#{file}", "w"){|f| f.write YAML.dump(send(variable))}
           end
         end
       end
