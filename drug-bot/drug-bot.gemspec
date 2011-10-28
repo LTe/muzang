@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "em-http-request", "~> 0.3.0"
-  s.add_runtime_dependency "coffeemaker", "~> 0.0.1.beta.1"
+  s.add_runtime_dependency "coffeemaker", "~> 0.0.1.beta.2"
 end
