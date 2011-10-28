@@ -1,6 +1,9 @@
+require 'drug-bot'
+require 'coffeemaker/bot'
+
 module DrugBot
   class Bot
-    attr_accessor :bot, :connection, :plugins, :engine, :channel
+    attr_accessor :bot, :connection, :plugins, :channel
 
     def initialize(options = {})
       @options = default_options.merge(options)
