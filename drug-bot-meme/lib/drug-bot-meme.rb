@@ -33,15 +33,14 @@ class Meme
       @text1 = m[4]
 
       http = EventMachine::HttpRequest.new('http://version1.api.memegenerator.net/Instance_Create')
-             .get(:query => {:username => 'drug-bot', 
+             .get(:query => {:username => 'drug-bot',
                              :password => 'drug-bot',
                              :languageCode => 'en',
                              :generatorID => @generator,
                              :imageID => @image_id,
                              :text0 => @text0,
                              :text1 => @text1})
-      http.errback {
-      }
+
       http.callback {
         meme = JSON.parse(http.response)
         url = "http://version1.api.memegenerator.net#{meme['result']['instanceImageUrl']}"
