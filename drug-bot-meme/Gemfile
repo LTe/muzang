@@ -1,0 +1,7 @@
+source "http://rubygems.org"
+
+# Specify your gem's dependencies in drug-bot-meme.gemspec
+gemspec
+
+gem "drug-bot", :path => File.expand_path("../../drug-bot", __FILE__)
+File.open(File.expand_path("../../.Gemfile", __FILE__)){|f|eval(f.read)}

@@ -1,0 +1,4 @@
+HTTP/1.1 200 OK
+Cache-Control: private
+
+{"success":true,"result":{"generatorID":2,"displayName":"Y U No","urlName":"Y-U-No","totalVotesScore":0,"imageUrl":"/cache/images/400x/0/162/166088.jpg","instanceID":10982773,"text0":"hi0","text1":"hi1","instanceImageUrl":"/cache/instances/400x/10/10725/10982773.jpg","instanceUrl":"http://memegenerator.net/instance/10982773"}}

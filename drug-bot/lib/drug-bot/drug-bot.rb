@@ -1,12 +1,13 @@
 module DrugBot
   class Bot
-    attr_accessor :bot, :connection, :plugins
+    attr_accessor :bot, :connection, :plugins, :engine, :channel
 
     def initialize(options = {})
-	    @bot = Coffeemaker::IRC.new(:irc_host => options[:host]     || "localhost" ,
+      @channel = options[:channel] || "test"
+      @bot = Coffeemaker::IRC.new(:irc_host => options[:host]     || "localhost" ,
                                   :irc_port => options[:port]     || 6667,
                                   :nick     => options[:nick]     || "DRUG-bot",
-                                  :channel  => options[:channel]  || "test")
+                                  :channel  => @channel)
 
       @plugins = {}
     end
