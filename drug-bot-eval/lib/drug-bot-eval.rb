@@ -22,7 +22,9 @@ class << Safe
 end
 
 def safe(*args, &block)
-   Safe::safe(*args, &block)
+  unless args.first =~ /EM|EventMachine/
+    Safe::safe(*args, &block)
+  end
 end
 
 class Eval

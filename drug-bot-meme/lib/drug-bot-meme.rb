@@ -17,9 +17,9 @@ class Meme
   end
 
   def call(connection, message)
-    message[:message].match(/^meme$/) do 
-      connection.msg("##{@bot.channel}", "Type 'meme [name of meme] \"Text0\" \"Text1\"'")
-      connection.msg("##{@bot.channel}", "Available memes: #{MEMES.keys.join(" ")}")
+    message[:message].match(/^meme$/) do
+      connection.msg("#{@bot.channel}", "Type 'meme [name of meme] \"Text0\" \"Text1\"'")
+      connection.msg("#{@bot.channel}", "Available memes: #{MEMES.keys.join(" ")}")
     end
     message[:message].match(/^meme (.*?) "(.*?)"( "(.*?)")?$/) do |m|
       if meme_ids = MEMES[m[1]]
@@ -44,7 +44,7 @@ class Meme
       http.callback {
         meme = JSON.parse(http.response)
         url = "http://version1.api.memegenerator.net#{meme['result']['instanceImageUrl']}"
-        connection.msg("##{@bot.channel}", "Meme: #{url}")
+        connection.msg("#{@bot.channel}", "Meme: #{url}")
       }
     end
   end
