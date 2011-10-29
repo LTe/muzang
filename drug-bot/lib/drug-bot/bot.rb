@@ -1,6 +1,7 @@
 require 'drug-bot'
 require 'coffeemaker/bot'
-require 'active_support/inflector'
+require 'active_support/inflector/inflections'
+require 'active_support/inflector/methods'
 
 module DrugBot
   class Bot
@@ -30,7 +31,8 @@ module DrugBot
       when Class
         plugin
       when String, Symbol
-        plugin.to_s.classify.constantize
+        klass_name = ActiveSupport::Inflector.classify(plugin.to_s)
+        klass      = ActiveSupport::Inflector.constantize(klass_name)
       end
       @plugins[klass] = klass.new(self)
     end
