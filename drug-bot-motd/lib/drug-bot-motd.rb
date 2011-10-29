@@ -1,5 +1,3 @@
-require "drug-bot-motd/version"
-
 class Motd
   include DrugBot::Plugin::Helpers
 

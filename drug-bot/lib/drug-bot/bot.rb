@@ -1,5 +1,6 @@
 require 'drug-bot'
 require 'coffeemaker/bot'
+require 'active_support/inflector'
 
 module DrugBot
   class Bot
@@ -25,7 +26,13 @@ module DrugBot
     end
 
     def register_plugin(plugin)
-      @plugins[plugin] = plugin.new(self)
+      klass = case plugin
+      when Class
+        plugin
+      when String, Symbol
+        plugin.to_s.classify.constantize
+      end
+      @plugins[klass] = klass.new(self)
     end
 
     private

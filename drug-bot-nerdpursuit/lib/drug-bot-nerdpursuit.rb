@@ -1,4 +1,3 @@
-require "drug-bot-nerdpursuit/version"
 require "json"
 
 class NerdPursuit
@@ -53,7 +52,7 @@ class NerdPursuit
   def find_winner
     @winner = @answers.reject do |_, answer|
       answer[:answer] != current_question["right_answer"][1..1]
-    end.sort_by do |_,answer| 
+    end.sort_by do |_,answer|
       answer[:time]
     end
   end
@@ -67,9 +66,9 @@ class NerdPursuit
       if match?(message, :regexp => /^!quiz$/, :position => 0)
         quiz!
         connection.msg(message.channel, "Quiz time!")
-        EM.add_timer(period(1)) { connection.msg(message.channel, "Category: #{current_question["category"]}") } 
+        EM.add_timer(period(1)) { connection.msg(message.channel, "Category: #{current_question["category"]}") }
         EM.add_timer(period(2)) { connection.msg(message.channel, "Question: #{current_question["text"]}") }
-        4.times do |time| 
+        4.times do |time|
           EM.add_timer(period(2+time+1)) { connection.msg(message.channel, "Answer #{time+1}: #{current_question["a#{time+1}"]}") }
         end
         EM.add_timer(period(40)) do

@@ -1,5 +1,3 @@
-require "drug-bot-livereload/version"
-
 class LiveReload
   include DrugBot::Plugin::Helpers
 

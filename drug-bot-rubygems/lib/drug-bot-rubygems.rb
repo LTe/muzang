@@ -1,4 +1,3 @@
-require "drug-bot-rubygems/version"
 require "em-http-request"
 require "json"
 
