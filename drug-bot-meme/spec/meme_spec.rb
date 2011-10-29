@@ -11,13 +11,13 @@ describe "Meme" do
     EventMachine::MockHttpRequest.pass_through_requests = false
     EventMachine::MockHttpRequest.register_file(@url, :get, @file)
     EventMachine::MockHttpRequest.activate!
+    @message = OpenStruct.new({:channel => "#test", :message => "meme", :nick => "LTe" })
   end
 
   it "should print pretty help" do
     EM.run do
-      message = { :channel => "#test", :message => "meme", :nick => "LTe" }
-      @meme.call(@connection, message)
-      eventually(true, :every => 0.1, :total => 100) do
+      @meme.call(@connection, @message)
+      eventually(true) do
         @connection.messages.include?("Type 'meme [name of meme] \"Text0\" \"Text1\"'") and
         @connection.messages.include?("Available memes: #{Meme::MEMES.keys.join(" ")}")
       end
@@ -25,19 +25,19 @@ describe "Meme" do
   end
 
   it "should create meme and send message" do
-    message = { :channel => "#test", :message => "meme yuno \"hi0\" \"hi1\"", :nick => "LTe" }
+    @message.message = "meme yuno \"hi0\" \"hi1\""
     EM.run do
-      @meme.call(@connection, message)
-      eventually(1, :every => 0.1, :total => 100) { @connection.messages.count }
-      eventually(true, :every => 0.1, :total => 100) { @connection.messages.include? "Meme: http://version1.api.memegenerator.net//cache/instances/400x/10/10725/10982714.jpg" }
+      @meme.call(@connection, @message)
+      eventually(1) { @connection.message_count }
+      eventually(true) { @connection.messages.include? "Meme: http://version1.api.memegenerator.net//cache/instances/400x/10/10725/10982714.jpg" }
     end
   end
 
   it "should not create meme" do
-    message = { :channel => "#test", :message => "meme asdkasdj \"hi0\" \"hi1\"", :nick => "LTe" }
+    @message.message = "meme asdkasdj \"hi0\" \"hi1\""
     EM.run do
-      @meme.call(@connection, message)
-      eventually(0, :every => 0.1, :total => 100) { @connection.message_count }
+      @meme.call(@connection, @message)
+      eventually(0) { @connection.message_count }
     end
   end
 end

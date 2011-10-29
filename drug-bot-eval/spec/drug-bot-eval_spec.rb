@@ -6,36 +6,37 @@ describe "Eval" do
     @bot = stub
     @eval = Eval.new(@bot)
     @connection = ConnectionMock.new
+    @message = OpenStruct.new({ :channel => "#test", :message => "% 1 + 1", :nick => "LTe" })
   end
 
   it "should eval ruby code" do
-    message = { :channel => "#test", :message => "% 1 + 1", :nick => "LTe" }
+    @message.message = "% 1 + 1"
     EM.run do
-      @eval.call(@connection, message)
+      @eval.call(@connection, @message)
       eventually(true) { @connection.messages.include? "2" }
     end
   end
 
   it "@codegram should give me a t-shirt" do
-    message = { :channel => "#test", :message => "% \"@codegram\"", :nick => "LTe" }
+    @message.message = "% \"@codegram\""
     EM.run do
-      @eval.call(@connection, message)
+      @eval.call(@connection, @message)
       eventually(true) { @connection.messages.include? "@codegram" }
     end
   end
 
   it "should not eval system method" do
-    message = { :channel => "#test", :message => "% system('rm -rf /')", :nick => "LTe" }
+    @message.message = "% system('rm -rf /')"
     EM.run do
-      @eval.call(@connection, message)
+      @eval.call(@connection, @message)
       eventually(true) { @connection.messages.include? "Error: Insecure operation - system" }
     end
   end
 
   it "should not crash after raise Exception" do
-    message = { :channel => "#test", :message => "% raise Exception", :nick => "LTe" }
+    @message.message = "% raise Exception"
     EM.run do
-      @eval.call(@connection, message)
+      @eval.call(@connection, @message)
       eventually(true) { @connection.messages.include? "Error: Exception" }
     end
   end

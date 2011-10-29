@@ -19,19 +19,18 @@ describe "NerdPursuit" do
     @connection = ConnectionMock.new
     @cq = JSON.parse(File.open("#{File.expand_path("../../lib/drug-bot-nerdpursuit/questions/ruby/matz.json", __FILE__)}").read)["question"]
     @nerdpursuit.current_question = @cq
+    @message = OpenStruct.new({ :channel => "#test", :message => "!quiz", :nick => "LTe" })
   end
 
   it "should start quiz after !quiz message" do
-    message = { :channel => "#test", :message => "!quiz", :nick => "LTe" }
-    @nerdpursuit.call(@connection, message)
+    @nerdpursuit.call(@connection, @message)
     @nerdpursuit.quiz_time.should == true
   end
 
   it "should parse question and start quiz sequence" do
     EM.run do
-      message = { :channel => "#test", :message => "!quiz", :nick => "LTe" }
-      @nerdpursuit.call(@connection, message)
-      eventually(true, :every => 1, :total => 100) do
+      @nerdpursuit.call(@connection, @message)
+      eventually(true) do
         @connection.messages.include? "Quiz time!"                          and
         @connection.messages.include? "Category: ruby"                      and
         @connection.messages.include? "Question: When Matz joined Heruku?"  and
@@ -45,12 +44,12 @@ describe "NerdPursuit" do
 
   it "should find winner" do
     EM.run do
-      message = { :channel => "#test", :message => "!quiz", :nick => "LTe" }
-      message_lte = message.merge(:message => "3")
-      @nerdpursuit.call(@connection, message)
-      @nerdpursuit.call(@connection, message_lte)
+      @message_lte = @message.dup
+      @message_lte.message = "3"
+      @nerdpursuit.call(@connection, @message)
+      @nerdpursuit.call(@connection, @message_lte)
 
-      eventually(true, :every => 1, :total => 100) do
+      eventually(true) do
         @connection.messages.include? "The winner is... LTe" and
         @connection.messages.include? "Right answer: 3"
       end
@@ -59,14 +58,15 @@ describe "NerdPursuit" do
 
   it "should not allow for many answers" do
     EM.run do
-      message = { :channel => "#test", :message => "!quiz", :nick => "LTe" }
-      @nerdpursuit.call(@connection, message)
+      @nerdpursuit.call(@connection, @message)
       [1,2,3,4].each do |answer|
-        @nerdpursuit.call(@connection, message.merge(:message => answer.to_s))
+        @message.message = answer.to_s
+        @nerdpursuit.call(@connection, @message)
       end
-        @nerdpursuit.call(@connection, message.merge(:message => "3", :nick => "PawelPacana"))
+        @message.message = "3"; @message.nick = "PawelPacana"
+        @nerdpursuit.call(@connection, @message)
 
-      eventually(true, :every => 1, :total => 100) do
+      eventually(true) do
         @connection.messages.include? "Right answer: 3"               and
         @connection.messages.include? "The winner is... PawelPacana"  and
         !@connection.messages.include? "The winner is... LTe"

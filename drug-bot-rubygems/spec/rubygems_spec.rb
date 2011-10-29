@@ -12,7 +12,7 @@ describe "RubyGems" do
     @bot = stub
     @rubygems = RubyGems.new(@bot)
     @connection = ConnectionMock.new(:options => { :nick => "DRUG-bot" })
-    @message = { :command => "JOIN", :channel => "#test", :nick => "DRUG-bot" }
+    @message = OpenStruct.new({ :command => "JOIN", :channel => "#test", :nick => "DRUG-bot" })
     @file = File.expand_path('../rubygems.response', __FILE__)
     EventMachine::MockHttpRequest.pass_through_requests = false
     EventMachine::MockHttpRequest.register_file('http://rubygems.org:80/api/v1/gems/latest.json', :get, @file)
@@ -23,7 +23,7 @@ describe "RubyGems" do
     @rubygems.last_gem = "fake_gem"
     EM.run do
       @rubygems.call(@connection, @message)
-      eventually(1, :every => 0.1, :total => 100) { @connection.message_count }
+      eventually(1) { @connection.message_count }
     end
   end
 
@@ -31,7 +31,7 @@ describe "RubyGems" do
     @rubygems.last_gem = "action_links"
     EM.run do
       @rubygems.call(@connection, @message)
-      eventually(0, :every => 0.1, :total => 100) { @connection.message_count }
+      eventually(0) { @connection.message_count }
     end
   end
 end

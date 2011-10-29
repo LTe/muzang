@@ -3,11 +3,11 @@ require 'drug-bot-motd'
 
 describe "Motd" do
   before do
-    @message = { :command => "JOIN", :channel => "#test", :nick => "DRUG-bot" }
+    @message = OpenStruct.new({ :command => :join, :channel => "#test", :nick => "DRUG-bot" })
     @bot = stub
     @motd = Motd.new(@bot)
     @bot.stub(:plugins => { Motd => @motd })
-    @connection = stub(:msg => true, :options => { :nick => "DRUG-bot" })
+    @connection = stub(:msg => true, :nick => "DRUG-bot")
   end
 
   it "should send message after join to channel" do
