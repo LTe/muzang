@@ -5,13 +5,13 @@ require 'active_support/inflector/methods'
 
 module DrugBot
   class Bot
-    attr_accessor :bot, :connection, :plugins, :channel
+    attr_accessor :bot, :connection, :plugins, :channels
 
     def initialize(options = {})
-      @options = default_options.merge(options)
-      @channel = @options.delete(:channel)
-      @plugins = {}
-      @bot     = Coffeemaker::Bot.new(@options)
+      @options  = default_options.merge(options)
+      @channels = @options.delete(:channels)
+      @plugins  = {}
+      @bot      = Coffeemaker::Bot.new(@options)
 
       @bot.irc.tap do |connection|
         connection.on_message = Proc.new do |m|
@@ -23,7 +23,7 @@ module DrugBot
     end
 
     def start
-      @bot.start { |irc| irc.join(@channel) }
+      @bot.start { |irc| @channels.each { |channel| irc.join(channel) } }
     end
 
     def register_plugin(plugin)
@@ -43,7 +43,7 @@ module DrugBot
         irc_host: 'localhost',
         irc_port: 6667,
         nick: 'DRUG-bot',
-        channel: '#test'
+        channels: ['#test']
       }
     end
   end
