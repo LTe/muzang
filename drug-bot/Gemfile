@@ -1,5 +1,0 @@
-source "http://rubygems.org"
-
-gemspec
-
-File.open(File.expand_path("../../.Gemfile", __FILE__)){|f|eval(f.read)}

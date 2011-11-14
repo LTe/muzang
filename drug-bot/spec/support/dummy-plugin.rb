@@ -1,2 +1,0 @@
-class DummyPlugin
-end
