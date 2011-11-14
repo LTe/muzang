@@ -25,7 +25,7 @@ module TaskUtils
   end
 
   def all_paths
-    Dir[File.join(File.dirname(__FILE__), 'drug-bot-*')]
+    Dir[File.join(File.dirname(__FILE__), 'muzang-*')]
   end
 
 end

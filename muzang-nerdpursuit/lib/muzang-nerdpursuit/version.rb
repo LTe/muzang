@@ -1,0 +1,3 @@
+class NerdPursuit
+  VERSION = "0.0.1"
+end
