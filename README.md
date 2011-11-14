@@ -1,9 +1,9 @@
-drug-bot
+muzang
 ========
 
 IRC bot for #drug.pl channel
 
-[![BuildStatus](http://travis-ci.org/LTe/drug-bot.png)](http://github.com/LTe/drug-bot)
+[![BuildStatus](http://travis-ci.org/LTe/muzang.png)](http://github.com/LTe/muzang)
 
 Plugin
 ======
@@ -37,12 +37,12 @@ message
 After that just execute .register_plugin before bot start
 
 ```ruby
-  @bot = DrugBot::Bot.new
+  @bot = Muzang::Bot.new
   @bot.register_plugin(PluginName)
   @bot.start
 ```
 
-Contributing to drug-bot
+Contributing to muzang
 ========================
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
