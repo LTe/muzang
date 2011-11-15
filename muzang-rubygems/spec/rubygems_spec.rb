@@ -3,7 +3,7 @@ require 'muzang-rubygems'
 
 class RubyGems
   def period
-    1
+    0.1
   end
 end
 
@@ -11,8 +11,8 @@ describe "RubyGems" do
   before do
     @bot = stub
     @rubygems = RubyGems.new(@bot)
-    @connection = ConnectionMock.new(:options => { :nick => "DRUG-bot" })
-    @message = OpenStruct.new({ :command => "JOIN", :channel => "#test", :nick => "DRUG-bot" })
+    @connection = ConnectionMock.new(:nick => "DRUG-bot")
+    @message = OpenStruct.new({ :command => :join, :channel => "#test", :nick => "DRUG-bot" })
     @file = File.expand_path('../rubygems.response', __FILE__)
     EventMachine::MockHttpRequest.pass_through_requests = false
     EventMachine::MockHttpRequest.register_file('http://rubygems.org:80/api/v1/gems/latest.json', :get, @file)

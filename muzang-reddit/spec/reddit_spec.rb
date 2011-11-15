@@ -3,7 +3,7 @@ require 'muzang-reddit'
 
 class Reddit
   def period
-    0.01
+    0.1
   end
 end
 
@@ -11,8 +11,8 @@ describe "Reddit" do
   before do
     @bot = stub
     @reddit = Reddit.new(@bot)
-    @connection = ConnectionMock.new(:options => { :nick => "DRUG-bot" })
-    @message = OpenStruct.new({ :command => "JOIN", :channel => "#test", :nick => "DRUG-bot" })
+    @connection = ConnectionMock.new(:nick => "DRUG-bot")
+    @message = OpenStruct.new({ :command => :join, :channel => "#test", :nick => "DRUG-bot" })
     @file = File.expand_path('../reddit.response', __FILE__)
     EventMachine::MockHttpRequest.pass_through_requests = false
     EventMachine::MockHttpRequest.register_file('http://www.reddit.com:80/r/ruby/.rss', :get, @file)
