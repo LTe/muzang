@@ -1,7 +1,0 @@
-source "http://rubygems.org"
-
-# Specify your gem's dependencies in muzang-plusone.gemspec
-gemspec unless ENV["HEAVY_DEVELOPMENT"]
-
-gem "muzang", :path => File.expand_path("../../muzang", __FILE__)
-File.open(File.expand_path("../../.Gemfile", __FILE__)){|f|eval(f.read)}
