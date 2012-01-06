@@ -1,46 +1,93 @@
 muzang
-========
+======
 
-IRC bot for #drug.pl channel
+Super simple IRCbot with **plugins**
 
 [![BuildStatus](http://travis-ci.org/LTe/muzang.png)](http://github.com/LTe/muzang)
 
-Plugin
-======
+Create bot instance
+===================
+
+```
+mkdir muzang-instance
+cd muzang-instance
+bundle init
+```
+
+### Edit Gemfile
+
+```ruby
+source "http://rubygems.org"
+
+gem 'muzang'
+```
+
+### Template
+
+```ruby
+# muzang.rb
+require 'muzang'
+
+EM.run do
+  @bot = Muzang::Bot.new(irc_host:  'localhost',
+                         irc_port:  6667,
+                         nick:      'muzang',
+                         channels:  ['#test'])
+  @bot.register_plugin(PluginClass)
+  @bot.start # start after register plugins  
+end
+```
+
+### Run
+
+```
+bundle exec ruby muzang.rb
+```
+
+
+How to create plugin?
+=====================
 
 ```ruby
 class PluginName
   def initialize(bot)
+    # initialize stuff
   end
 
-  def call(connection, message)
+  def call(connection, *message)
+    # plugin stuff
   end
 end
 ```
 
-*connection* - you can use methods from Coffeemaker::Commands
+## Connection
 
-message
+def call(**connection**, message)
 
-```ruby
-# example message
-  {
-    :command => "PRIVMSG",
-    :user    => "LTe",
-    :nick    => "LTe",
-    :host    => "localhost",
-    :message => "Hi there!",
-    :channel => "#test"
-  }
-```
+### Methods of connection object
+* *join(channel)* **join to channel**
+* *part(channel)* **exit from the channel**
+* *msg(channel, text)* **send message to channel or to user**
 
-After that just execute .register_plugin before bot start
+## Message
 
-```ruby
-  @bot = Muzang::Bot.new
-  @bot.register_plugin(PluginName)
-  @bot.start
-```
+def call(connection, **message**)
+
+### Methods of message object
+* numeric_reply
+* *nick* **who sent the message**
+* user
+* host
+* *sever* **server from which the message was sent**
+* error
+* *channel* **channel from which the message was sent**
+* *message* **message body**
+* *command* **message command**
+
+## Plugins
+
+[muzang-plugins](http://github.com/LTe/muzang-plugins)
+
 
 Contributing to muzang
 ========================
