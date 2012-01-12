@@ -88,6 +88,12 @@ def call(connection, **message**)
 
 [muzang-plugins](http://github.com/LTe/muzang-plugins)
 
+## Ruby
+
+ * 1.9.2
+ * 1.9.3
+ * ruby-head
+ * rubinius 1.9 mode
 
 Contributing to muzang
 ========================
