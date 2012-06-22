@@ -4,7 +4,11 @@ describe "Muzang" do
   before do
     @muzang = Muzang::Bot.new
     @muzang.bot.stub(:start) do
-      Class.new{attr_accessor :on_message}.new
+      @connection = Class.new { include Coffeemaker::Bot::Irc::Connection }.new
+      @connection.on_connect = @muzang.bot.irc.on_connect
+      @connection.on_message = @muzang.bot.irc.on_message
+      @connection.stub(:send_data)
+      @connection
     end
   end
 
@@ -20,15 +24,24 @@ describe "Muzang" do
   end
 
   it "should create plugins proc" do
-    @muzang.start
     @muzang.bot.irc.on_message.is_a?(Proc).should be_true
+  end
+
+  it "should create hook for joining to the channels" do
+    @muzang.bot.irc.on_connect.is_a?(Proc).should be_true
+  end
+
+  it "should join to channels" do
+    @muzang.bot.irc.on_connect.should_receive(:call).once
+    connection = @muzang.start
+    connection.connection_completed
   end
 
   it "should execute call on plugin instance" do
     @muzang.register_plugin(DummyPlugin)
     @plugin_instance = @muzang.plugins[DummyPlugin]
     @plugin_instance.should_receive(:call).once
-    @muzang.start
-    @muzang.bot.irc.on_message.call
+    connection = @muzang.start
+    connection.receive_line(':CalebDelnay!calebd@localhost PRIVMSG #mychannel :Hello everyone!')
   end
 end

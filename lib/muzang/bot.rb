@@ -19,11 +19,15 @@ module Muzang
             instance.call(connection, m) rescue nil
           end
         end
+
+        connection.on_connect = Proc.new do
+          @channels.each { |channel| connection.join(channel) }
+        end
       end
     end
 
     def start
-      @bot.start { |irc| @channels.each { |channel| irc.join(channel) } }
+      @bot.start
     end
 
     def register_plugin(plugin)
