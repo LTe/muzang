@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    muzang (1.0.1)
+    muzang (1.1.0)
       coffeemaker (~> 0.1.0)
       em-http-request (~> 1.0.0)
 
