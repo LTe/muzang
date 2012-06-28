@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Muzang::VERSION
   s.authors     = ["Piotr Niełacny", "Paweł Pacana"]
   s.email       = ["piotr.nielacny@gmail.com", "pawel.pacana@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/LTe/muzang"
   s.summary     = %q{Dolnoslaska Ruby User Group IRC bot}
   s.description = %q{IRC bot with easy plugin managment}
 
