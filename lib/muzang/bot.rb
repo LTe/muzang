@@ -2,6 +2,7 @@ require 'muzang'
 require 'coffeemaker/bot'
 require 'active_support/inflector/inflections'
 require 'active_support/inflector/methods'
+require 'logger'
 
 module Muzang
   class Bot
@@ -47,7 +48,8 @@ module Muzang
         irc_host: 'localhost',
         irc_port: 6667,
         nick: 'DRUG-bot',
-        channels: ['#test']
+        channels: ['#test'],
+        logger: Logger.new('/dev/null')
       }
     end
   end
