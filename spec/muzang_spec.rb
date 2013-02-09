@@ -7,6 +7,7 @@ describe "Muzang" do
       @connection = Class.new { include Coffeemaker::Bot::Irc::Connection }.new
       @connection.on_connect = @muzang.bot.irc.on_connect
       @connection.on_message = @muzang.bot.irc.on_message
+      @connection.logger     = @muzang.bot.irc.logger
       @connection.stub(:send_data)
       @connection
     end
