@@ -1,12 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Muzang" do
+  let(:rpl_welcome) { "001 muzang :Welcome to the IRC Network muzang!muzang@1.2.3.4" }
+
   before do
     @muzang = Muzang::Bot.new
     @muzang.bot.stub(:start) do
       @connection = Class.new { include Coffeemaker::Bot::Irc::Connection }.new
       @connection.on_connect = @muzang.bot.irc.on_connect
       @connection.on_message = @muzang.bot.irc.on_message
+      @connection.logger     = @muzang.bot.irc.logger
       @connection.stub(:send_data)
       @connection
     end
@@ -34,7 +37,7 @@ describe "Muzang" do
   it "should join to channels" do
     @muzang.bot.irc.on_connect.should_receive(:call).once
     connection = @muzang.start
-    connection.connection_completed
+    connection.receive_line rpl_welcome
   end
 
   it "should execute call on plugin instance" do
