@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "coffeemaker", "~> 0.1.2"
+  s.add_development_dependency "em-ventually",  "~> 0.1.2"
 end

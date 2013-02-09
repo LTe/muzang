@@ -33,9 +33,10 @@ describe "Muzang" do
   end
 
   it "should join to channels" do
-    @muzang.bot.irc.on_connect.should_receive(:call).once
+    message_expectation =  @muzang.bot.irc.on_connect.should_receive(:call).once
     connection = @muzang.start
     connection.connection_completed
+    eventually(true, :every => 1, :total => 3) { message_expectation.instance_variable_get(:@actual_received_count) == 1 }
   end
 
   it "should execute call on plugin instance" do
